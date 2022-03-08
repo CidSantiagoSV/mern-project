@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const exerciseRouter = require('./routes/exercises.js');
+const usersRouter = require('./routes/users.js');
 
 
 //hide enviromental variables
@@ -19,10 +21,17 @@ app.use(express.json());
 //connect to mongoDB
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true });
-const connection = mongoose.connection;
-    console.log("MongoDB connection established successfully");
 
-//starts the server
+//wait server start then connect to MongoDB
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("MongoDB connection established successfully");
+})
+
+app.use('/exercises', exerciseRouter);
+app.use('/users', usersRouter);
+
+//starts the servers
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
