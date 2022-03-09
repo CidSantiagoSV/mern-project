@@ -16,6 +16,6 @@ const userSchema = new Schema({
 });
 
 //Store in User the data from model userSchema ('User' can be anything)
-const User = mongoose.models('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

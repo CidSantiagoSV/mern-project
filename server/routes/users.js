@@ -2,15 +2,16 @@
 let User = require('../models/user.model.js');
 
 router.route('/').get((req, res) => {
+    //mongoose method that gets a list of all users (find returns a promise)
     User.find()
-        .then(users => res,json(users))
+        .then(users => res.json(users))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
     const newUser = new User({username});
-
+    //save new user to MongoDB
     newUser.save()
         .then(() => res.json('User added!'))
         .catch(err => res.status(400).json('Error: ' + err));
